@@ -1,0 +1,44 @@
+List<Map<String, dynamic>> localEvents = [
+  {
+    "id": "1",
+    "name": "Concert",
+    "description": "A live concert event.",
+    "startDate": DateTime.now().toIso8601String(),
+    "endDate": DateTime.now().add(Duration(days: 2)).toIso8601String(),
+    "location": "Stadium",
+  },
+  {
+    "id": "2",
+    "name": "Art Exhibition",
+    "description": "An exhibition of modern art.",
+    "startDate": DateTime.now().toIso8601String(),
+    "endDate": DateTime.now().add(Duration(days: 5)).toIso8601String(),
+    "location": "Art Gallery",
+  },
+  {
+    "id": "3",
+    "name": "Tech Conference",
+    "description": "A conference about the latest in technology.",
+    "startDate": DateTime.now().toIso8601String(),
+    "endDate": DateTime.now().add(Duration(days: 3)).toIso8601String(),
+    "location": "Convention Center",
+  },
+  {
+    "id": "4",
+    "name": "Food Festival",
+    "description": "A festival celebrating food and culture.",
+    "startDate": DateTime.now().toIso8601String(),
+    "endDate": DateTime.now().add(Duration(days: 4)).toIso8601String(),
+    "location": "City Park",
+  },
+  {
+    "id": "5",
+    "name": "Theater Play",
+    "description": "A live theater performance.",
+    "startDate": DateTime.now().toIso8601String(),
+    "endDate": DateTime.now().add(Duration(days: 1)).toIso8601String(),
+    "location": "City Theater",
+  },
+
+
+];
