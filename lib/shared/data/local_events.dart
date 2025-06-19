@@ -39,6 +39,4 @@ List<Map<String, dynamic>> localEvents = [
     "endDate": DateTime.now().add(Duration(days: 1)).toIso8601String(),
     "location": "City Theater",
   },
-
-
 ];

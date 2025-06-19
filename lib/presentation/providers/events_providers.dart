@@ -17,6 +17,7 @@ class EventsNotifier extends StateNotifier<List<EventEntity>> {
  
   int curretPage = 0;
   int currentItemCount = 10;
+  bool isLoading = false;
   EventCallBack fetchMoreEvents;
   EventsNotifier(
     {required this.fetchMoreEvents}
@@ -24,14 +25,20 @@ class EventsNotifier extends StateNotifier<List<EventEntity>> {
   ) : super([]);
 
   Future<void> loadNextPage() async {
+    if (isLoading) return;
     
-    currentItemCount++;
+    isLoading = true;
+    currentItemCount+=20;
     if (currentItemCount * curretPage > 1000 || currentItemCount > 199) {
-      currentItemCount = 1;
+      currentItemCount = 20;
       curretPage++;
     }
+
     final List<EventEntity> newEvents = await fetchMoreEvents(page: curretPage, limit: currentItemCount);
-    state = [...state, ...newEvents];
+    final existingIds = state.map((e) => e.id).toSet();
+    state = [...state, ...newEvents.where((event) => !existingIds.contains(event.id))];
+    await Future.delayed(const Duration(milliseconds: 400));
+    isLoading = false;
   }
 
 }

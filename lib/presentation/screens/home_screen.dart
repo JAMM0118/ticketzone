@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ticketzone/presentation/providers/events_providers.dart';
+import 'package:ticketzone/presentation/providers/providers.dart';
 import 'package:ticketzone/presentation/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,7 +8,15 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _HomeView());
+    return Scaffold(
+      appBar: AppBar(
+        title: const CustomAppbar(),
+        forceMaterialTransparency: true,
+        elevation: 0,
+      ),
+      body: _HomeView(),
+      bottomNavigationBar: const CustomBottomNavigation(),
+      );
   }
 }
 
@@ -26,30 +34,18 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final initialLoading = ref.watch(initialLoadingProvider);
     final getEvents = ref.watch(getEventsProvider);
-    return Column(
-      children: [
-        CustomAppbar(),
-        Expanded(
-          child:
-              getEvents.isEmpty
-                  ? const Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                    itemCount: getEvents.length,
-                    itemBuilder: (context, index) {
-                      final event = getEvents[index];
-                      return ListTile(
-                        title: Text(event.name),
-                        subtitle: Text(
-                          'Fecha: ${event.startDate} \nHora: ${event.startTime}',
-                        ),
-                        trailing: Text('${event.segment} - ${event.genre}'),
-                        leading: const Icon(Icons.event),
-                      );
-                    },
-                  ),
+
+    return Visibility(
+      visible: !initialLoading,
+      replacement: FullScreenLoader(),
+      child: EventMasonry(
+        events: getEvents,
+        loadNextPage: (){
+          ref.read(getEventsProvider.notifier).loadNextPage();
+        },
         ),
-      ],
     );
   }
 }

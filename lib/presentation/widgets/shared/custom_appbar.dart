@@ -11,33 +11,33 @@ class CustomAppbar extends StatelessWidget {
 
     return SafeArea(
       bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: SizedBox(
-          width: double.infinity,
-          
-          child: Row(
-            children: [
-              Image.network(
-                'https://icon-library.com/images/free-ticket-icon/free-ticket-icon-0.jpg',
+      child: SizedBox(
+        width: double.infinity,
+        
+        child: Row(
+          children: [
+             Padding(
+               padding: const EdgeInsets.symmetric(horizontal: 5),
+               child: Image.asset(
+                'assets/images/ticket.jpg',
                 width: 20,
                 height: 20,
-                color: colors.primary,
+                color: colors.primary,),
+             ),
+            
+            const SizedBox(width: 5),
+            Text(
+              'TicketZone',
+              style: titleStyle
+      
+            ),
+              const Spacer(),
+              IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () {},
               ),
-              const SizedBox(width: 5),
-              Text(
-                'TicketZone',
-                style: titleStyle
-
-              ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {},
-                ),
-
-            ],
-          ),
+      
+          ],
         ),
       ),
     );

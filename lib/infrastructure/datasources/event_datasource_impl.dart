@@ -3,10 +3,10 @@ import 'package:ticketzone/domain/entities/event_entity.dart';
 import 'package:ticketzone/infrastructure/models/event_model.dart';
 import 'package:ticketzone/shared/data/api_events.dart';
 
+
 class EventDataSourceImpl implements EventDataSource{
   @override
   Future<List<EventEntity>> getEvents({int page = 0, int limit = 10})  async{
-    await Future.delayed(const Duration(seconds: 2));  
     final apiEvents = await ApiEvents().getApiEvents(page: page, limit: limit);
 
     final List<EventEntity> newEvents = apiEvents.map(
@@ -14,6 +14,13 @@ class EventDataSourceImpl implements EventDataSource{
     ).toList();
     
     return newEvents;
+  }
+  
+  @override
+  Future<EventEntity> getEventById(String id) async{
+    final apiEvent = await ApiEvents().getEventById(id);
+    final EventEntity event = EventModel.fromJson(apiEvent).toEventEntity(); 
+    return event;
   }
 
 }

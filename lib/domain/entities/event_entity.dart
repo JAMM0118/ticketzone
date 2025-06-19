@@ -2,18 +2,27 @@ class EventEntity {
   final String id;
   final String name;
   final String segment;
-  
+  final String description;
   final String genre;
-  final String startDate;
   final String location;
+  final String country;
+  final String city;
   final String imageUrl;
+  final String startDate;
   final String startTime;
   final String startDateSale;
   final String endDateSale;
+  final bool isPreSale;
+  final bool isOnSale;
   final String startDatePreSale;
   final String endDatePreSale;
 
-  EventEntity({
+  EventEntity( {
+    required this.isPreSale,
+    required this.isOnSale,
+    required this.country, 
+    required this.city,
+    required this.description, 
     required this.startTime,
     required this.startDatePreSale,
     required this.endDatePreSale,

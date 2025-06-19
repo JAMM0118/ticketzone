@@ -13,6 +13,11 @@ class EventRepositoyImpl  implements EventRepository{
   Future<List<EventEntity>> getEvents({int page = 0 , int limit= 10}) async {
     return eventDataSource.getEvents(page: page, limit: limit);
   }
+  
+  @override
+  Future<EventEntity> getEventById(String id) {
+    return eventDataSource.getEventById(id);
+  }
 
 
 }
