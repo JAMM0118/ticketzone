@@ -13,68 +13,68 @@ class EventPosterLink extends StatelessWidget {
   Widget build(BuildContext context) {
     final random = Random();
     final textStyle = Theme.of(context).textTheme;
-     return FadeInUp(
+    return FadeInUp(
       from: random.nextInt(100) * 80,
       delay: Duration(milliseconds: random.nextInt(450)),
       child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.blue.shade200.withValues(alpha:0.5),
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Colors.blue.shade200.withValues(alpha: 0.5),
+              ),
+            ),
+            width: 160,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Banner(
+                message: event.isOnSale ? 'On Sale' : 'Sold Out',
+                location: BannerLocation.topStart,
+                shadow: BoxShadow(color: Colors.black.withValues(alpha: 0)),
+                color: event.isOnSale ? Colors.green : Colors.grey,
+                child: Banner(
+                  message: event.isPreSale ? 'On Presale' : '',
+                  textStyle: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
-                ),
-                width: 160,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Banner(
-                    message: event.isOnSale ? 'On Sale' : '',
-                    location: BannerLocation.topStart,
-                    shadow: BoxShadow(
-                      color: Colors.black.withValues(alpha: 0),
-                    ),
-                    color:  event.isOnSale ? Colors.green : Colors.transparent,
-                    child: Banner(
-                      message: event.isPreSale ? 'On Presale' : '',
-                      shadow: BoxShadow(
-                        color: Colors.black.withValues(alpha: 0),
-                      ),
-                      location: BannerLocation.bottomEnd ,
-                      color: event.isPreSale ? Colors.redAccent : Colors.transparent,
-                      child: GestureDetector(
-                        onTap: () =>context.push('/event/${event.id}'),
-                        child: Image.network(
-                          event.imageUrl,
-                          fit: BoxFit.cover,
-                          height: 300,
-                          width: double.infinity,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(strokeWidth: 2
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                  shadow: BoxShadow(color: Colors.black.withValues(alpha: 0)),
+                  location: BannerLocation.bottomEnd,
+                  color: event.isPreSale ? Colors.yellow : Colors.transparent,
+                  child: GestureDetector(
+                    onTap: () => context.push('/event/${event.id}'),
+                    child: Image.network(
+                      event.imageUrl,
+                      fit: BoxFit.cover,
+                      height: 300,
+                      width: double.infinity,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        );
+                      },
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 5),
-              SizedBox(
-                width: 160,
-
-                child: Text(
-                  textAlign: TextAlign.center,
-                  event.name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: textStyle.titleSmall    
-              )),
-            
-            ]),
-      );
+            ),
+          ),
+          const SizedBox(height: 5),
+          SizedBox(
+            width: 160,
+            child: Text(
+              textAlign: TextAlign.center,
+              event.name,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: textStyle.titleSmall,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

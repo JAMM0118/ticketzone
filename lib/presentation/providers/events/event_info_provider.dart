@@ -19,7 +19,6 @@ class EventMapNotifier extends StateNotifier<Map<String, EventEntity>> {
   Future<void> loadEvent(String eventId) async{
     if(state[eventId] != null) return;
 
-    print('Loading event with ID: $eventId');
     final event = await getEvent(eventId);
 
     state = {...state, eventId: event};

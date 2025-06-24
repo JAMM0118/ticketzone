@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'events_providers.dart';
+import 'events/events_providers.dart';
 
 final initialLoadingProvider = Provider<bool>((ref){
    final step1 = ref.watch(getEventsProvider).isEmpty;

@@ -6,6 +6,7 @@ class EventEntity {
   final String genre;
   final String location;
   final String country;
+  final String buyUrl;
   final String city;
   final String imageUrl;
   final String startDate;
@@ -17,12 +18,13 @@ class EventEntity {
   final String startDatePreSale;
   final String endDatePreSale;
 
-  EventEntity( {
+  EventEntity({
     required this.isPreSale,
+    required this.buyUrl,
     required this.isOnSale,
-    required this.country, 
+    required this.country,
     required this.city,
-    required this.description, 
+    required this.description,
     required this.startTime,
     required this.startDatePreSale,
     required this.endDatePreSale,
@@ -36,5 +38,4 @@ class EventEntity {
     required this.startDate,
     required this.location,
   });
-
 }

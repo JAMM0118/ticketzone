@@ -22,5 +22,19 @@ class EventDataSourceImpl implements EventDataSource{
     final EventEntity event = EventModel.fromJson(apiEvent).toEventEntity(); 
     return event;
   }
+  
+  @override
+  Future<List<EventEntity>> searchEvents(String query) async {
+    if (query.isEmpty) return [];
+    
+    final apiEvents = await ApiEvents().searchEvents(query);
+    
+    final List<EventEntity> newEvents = apiEvents.map(
+      (event) => EventModel.fromJson(event).toEventEntity()
+    ).toList();
+    
+    return newEvents;
+   
+  }
 
 }

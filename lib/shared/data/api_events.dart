@@ -5,7 +5,6 @@ class ApiEvents {
   final dio = Dio(BaseOptions(
     baseUrl: 'https://app.ticketmaster.com/discovery/v2',
     queryParameters: {
-      'countryCode': 'US',
       'apikey': Environment.eventsKey,
     }
   ));
@@ -35,4 +34,21 @@ class ApiEvents {
       throw Exception('Failed to load event by ID: $e');
     }
   }
+
+  Future<List<dynamic>> searchEvents(String query) async {
+    try {
+      final response = await dio.get('/events',
+        queryParameters: {
+          'keyword': query,
+        });
+      if (response.statusCode == 200) {
+        return response.data['_embedded'] != null 
+        ? response.data['_embedded']['events']  ?? [] : [];}
+      throw Exception('Failed to search events');
+      
+    } catch (e) {
+      throw Exception('Failed to search events: $e');
+    }
+  }
+  
 }

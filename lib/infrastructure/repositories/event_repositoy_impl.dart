@@ -18,6 +18,11 @@ class EventRepositoyImpl  implements EventRepository{
   Future<EventEntity> getEventById(String id) {
     return eventDataSource.getEventById(id);
   }
+  
+  @override
+  Future<List<EventEntity>> searchEvents(String query) {
+    return eventDataSource.searchEvents(query);
+  }
 
 
 }
