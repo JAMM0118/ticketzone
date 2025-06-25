@@ -3,7 +3,6 @@ import 'package:ticketzone/domain/entities/event_entity.dart';
 import 'package:ticketzone/infrastructure/models/event_model.dart';
 import 'package:ticketzone/shared/data/api_events.dart';
 
-
 class EventDataSourceImpl implements EventDataSource{
   @override
   Future<List<EventEntity>> getEvents({int page = 0, int limit = 10})  async{
@@ -36,5 +35,4 @@ class EventDataSourceImpl implements EventDataSource{
     return newEvents;
    
   }
-
 }

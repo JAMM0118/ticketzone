@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:ticketzone/config/environment/environment.dart';
 
 class ApiEvents {
-  final dio = Dio(BaseOptions(
+  final _dio = Dio(BaseOptions(
     baseUrl: 'https://app.ticketmaster.com/discovery/v2',
     queryParameters: {
       'apikey': Environment.eventsKey,
@@ -11,7 +11,7 @@ class ApiEvents {
 
   Future<List<dynamic>> getApiEvents({int page = 0, int limit = 10}) async {
     try {
-      final response = await dio.get('/events',
+      final response = await _dio.get('/events',
         queryParameters: {
         'page': page,
         'size': limit,
@@ -26,7 +26,7 @@ class ApiEvents {
 
   Future<dynamic> getEventById(String id) async {
     try {
-      final response = await dio.get('/events/$id');
+      final response = await _dio.get('/events/$id');
       if (response.statusCode == 200) return response.data;
       throw Exception('Failed to load event by ID');
       
@@ -37,7 +37,7 @@ class ApiEvents {
 
   Future<List<dynamic>> searchEvents(String query) async {
     try {
-      final response = await dio.get('/events',
+      final response = await _dio.get('/events',
         queryParameters: {
           'keyword': query,
         });

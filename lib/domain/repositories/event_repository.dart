@@ -1,4 +1,3 @@
-
 import 'package:ticketzone/domain/entities/event_entity.dart';
 
 abstract class EventRepository {

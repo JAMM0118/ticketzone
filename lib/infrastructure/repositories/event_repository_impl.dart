@@ -23,6 +23,5 @@ class EventRepositoyImpl  implements EventRepository{
   Future<List<EventEntity>> searchEvents(String query) {
     return eventDataSource.searchEvents(query);
   }
-
-
+  
 }
