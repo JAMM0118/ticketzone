@@ -7,7 +7,6 @@ final eventInfoProvider = StateNotifierProvider<EventMapNotifier, Map<String, Ev
   return EventMapNotifier(getEvent: eventRepository.getEventById);
 });
 
-
 typedef GetEventCallBack = Future<EventEntity> Function(String eventId);
 
 class EventMapNotifier extends StateNotifier<Map<String, EventEntity>> {

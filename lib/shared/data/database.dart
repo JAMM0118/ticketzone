@@ -1,5 +1,7 @@
 import 'package:postgres/postgres.dart';
 import 'package:ticketzone/config/environment/environment.dart';
+import 'package:ticketzone/domain/entities/db_tickets_bought_entity.dart';
+import 'package:ticketzone/domain/entities/db_user_entity.dart';
 
 class Database {
 
@@ -14,11 +16,43 @@ class Database {
     );
   }
 
+  Future<Result> getUser(DbUserEntity user) async{
+    return await connection().then((conn) => conn.execute(
+      r'SELECT * FROM users WHERE email=($1) AND password=($2);',
+      parameters: [user.email, user.password]
+    ));
+  }
+
+  Future<void> addUser(DbUserEntity user) async {
+    await connection().then((conn) => conn.execute(
+      r'INSERT INTO users (email,password,name) VALUES ($1,$2,$3)',
+      parameters: [
+        user.email,
+        user.password,
+        user.fullName,
+      ]   
+      )
+    );
+  }
+
   Future<Result> ticketsBought() async{
-    return await connection().then((conn) { 
-      final query = conn.execute('SELECT * FROM ticketsbought');
-      return query;
-      }
+    return await connection().then((conn) => conn.execute('SELECT * FROM ticketsbought'));
+  }
+
+  Future<void> addTicket(DbTicketsBoughtEntity ticketBought) async {
+    await connection().then((conn) => conn.execute(
+      r'INSERT INTO ticketsbought (event_id,image_url,name,start_date,start_time,country,latitude,longitude) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)',
+      parameters: [
+        ticketBought.ticketId,
+        ticketBought.imageUrl,
+        ticketBought.name,
+        ticketBought.startDate,
+        ticketBought.startTime,
+        ticketBought.country,
+        ticketBought.latitude,
+        ticketBought.longitude,
+      ]   
+      )
     );
   }
 }

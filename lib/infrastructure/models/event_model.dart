@@ -19,6 +19,8 @@ class EventModel {
   final bool isPreSale;
   final bool isOnSale;
   final String buyUrl;
+  final String latitude;
+  final String longitude;
 
   EventModel({
     required this.isPreSale,
@@ -39,6 +41,8 @@ class EventModel {
     required this.segment,
     required this.startDate,
     required this.location,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
@@ -130,6 +134,18 @@ class EventModel {
                 : false
             : false,
     buyUrl: json['url'] ?? 'No URL available',
+    latitude: json['_embedded'] != null &&
+            json['_embedded']['venues'] != null &&
+            json['_embedded']['venues'][0]['location'] != null &&
+            json['_embedded']['venues'][0]['location']['latitude'] != null
+        ? json['_embedded']['venues'][0]['location']['latitude']
+        : 'No latitude',
+    longitude: json['_embedded'] != null &&
+            json['_embedded']['venues'] != null &&
+            json['_embedded']['venues'][0]['location'] != null &&
+            json['_embedded']['venues'][0]['location']['longitude'] != null
+        ? json['_embedded']['venues'][0]['location']['longitude']
+        : 'No longitude',
   );
 
   EventEntity toEventEntity() => EventEntity(
@@ -151,5 +167,7 @@ class EventModel {
     country: country,
     isPreSale: isPreSale,
     isOnSale: isOnSale,
+    latitude: latitude,
+    longitude: longitude,
   );
 }

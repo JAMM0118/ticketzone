@@ -10,7 +10,6 @@ final getEventsProvider = StateNotifierProvider<EventsNotifier, List<EventEntity
   );
 });
 
-
 typedef EventCallBack = Future<List<EventEntity>> Function({int page, int limit});
 
 class EventsNotifier extends StateNotifier<List<EventEntity>> {
@@ -40,5 +39,4 @@ class EventsNotifier extends StateNotifier<List<EventEntity>> {
     isLoading = false;
    
   }
-
 }

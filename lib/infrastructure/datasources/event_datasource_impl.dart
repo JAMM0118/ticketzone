@@ -33,6 +33,5 @@ class EventDataSourceImpl implements EventDataSource{
     ).toList();
     
     return newEvents;
-   
   }
 }

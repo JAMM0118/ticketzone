@@ -17,6 +17,8 @@ class EventEntity {
   final bool isOnSale;
   final String startDatePreSale;
   final String endDatePreSale;
+  final String latitude;
+  final String longitude;
 
   EventEntity({
     required this.isPreSale,
@@ -37,5 +39,7 @@ class EventEntity {
     required this.segment,
     required this.startDate,
     required this.location,
+    required this.latitude,
+    required this.longitude,
   });
 }

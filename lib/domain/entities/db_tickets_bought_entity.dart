@@ -4,8 +4,14 @@ class DbTicketsBoughtEntity {
   final String name;
   final String startDate;
   final String startTime;
+  final String country;
+  final String latitude;
+  final String longitude;
 
   DbTicketsBoughtEntity({
+    required this.country,
+    required this.latitude,
+    required this.longitude,
     required this.startTime,
     required this.ticketId,
     required this.imageUrl,

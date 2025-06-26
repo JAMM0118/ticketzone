@@ -1,19 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketzone/presentation/providers/database/db_tickets_bought_provider.dart';
 import '../../providers/providers.dart';
 import '../../widgets/widgets.dart';
 
 class HomeView extends ConsumerStatefulWidget {
-  const HomeView({super.key});
+  const HomeView({super.key});  
   @override
   HomeViewState createState() => HomeViewState();
 }
 
 class HomeViewState extends ConsumerState<HomeView> {
+  
   @override
   void initState() {
     super.initState();
     ref.read(getEventsProvider.notifier).loadNextPage();
+    ref.read(getTicketsBoughtProvider.notifier).loadTicketsBought();
   }
 
   @override

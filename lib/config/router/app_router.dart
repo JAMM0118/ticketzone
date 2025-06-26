@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:ticketzone/presentation/screens/scanner_qr_screen/scanner_qr_screen.dart';
 import 'package:ticketzone/presentation/screens/screens.dart';
 import 'package:ticketzone/presentation/views/views.dart';
 
@@ -25,6 +26,7 @@ final appRouter = GoRouter(
             ),
           ],
         ),
+
         StatefulShellBranch(
           routes: [
             GoRoute(
@@ -43,13 +45,32 @@ final appRouter = GoRouter(
         return EventScreen(eventId: eventId ?? 'no-id');
       },
     ),
+  
+    GoRoute(
+      path: '/',
+      builder: (context, state) =>const LoginScreen(),
+    ),
 
-    //ruta login
+    GoRoute(
+      path: '/register',
+      builder: (context, state) => const RegisterScreen(),
+    ),
 
-    // GoRoute(
-    //   path: '/',
-    //   builder: (context, state) => const HomeScreen(childView: TicketsView(),),
-    //
-    // ),
+    GoRoute(
+      path: '/loginSupervisor',
+      builder: (context, state) => const LoginSupervisorScreen(),
+    ),
+
+    GoRoute(
+      path: '/homeSupervisor',
+      builder: (context, state) => const HomeSupervisorScreen(),
+    ),
+
+    GoRoute(
+      path: '/scannerQR',
+      builder: (context, state) => const ScannerQRScreen(),
+    ),
+
+
   ],
 );

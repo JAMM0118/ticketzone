@@ -13,7 +13,8 @@ class FullScreenLoader extends StatelessWidget {
       'Loading your experience',
       'Getting things ready',
       'We are on it',
-      'Check your internet connection',
+      'Something was wrong with our servers',
+      'Reload the app please',
     ];
     return Stream.periodic(const Duration(milliseconds: 1200), (step) {
       return messages[step];

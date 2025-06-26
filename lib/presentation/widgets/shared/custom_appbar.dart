@@ -6,12 +6,11 @@ import 'package:ticketzone/presentation/delegates/search_event_delegate.dart';
 import 'package:ticketzone/presentation/providers/providers.dart';
 
 class CustomAppbar extends ConsumerWidget {
-  const CustomAppbar({super.key});
+  const CustomAppbar( {super.key,});
 
   @override
   Widget build(BuildContext context,ref) {
 
-    final colors = Theme.of(context).colorScheme;
     final titleStyle = Theme.of(context).textTheme.titleMedium;
 
     return SafeArea(
@@ -24,14 +23,13 @@ class CustomAppbar extends ConsumerWidget {
              Padding(
                padding: const EdgeInsets.symmetric(horizontal: 18),
                child: Image.asset(
-                'assets/images/ticket.jpg',
-                width: 20,
-                height: 20,
-                color: colors.primary,),
+                'assets/images/logo.png',
+                width: 34,
+                height: 40,),
              ),
             
             Text(
-              'TicketZone',
+              'Welcome 🤩',
               style: titleStyle
       
             ),
