@@ -4,7 +4,10 @@ import 'package:ticketzone/domain/entities/event_entity.dart';
 
 abstract class DbDataSource {
   Future<List<DbTicketsBoughtEntity>> getTicketsBought();
-  Future<void> addTicket(EventEntity event);
+  Future<void> addTicket(EventEntity event,int userId);
   Future<DbUserEntity> getUserToLogin(DbUserEntity user);
   Future<void> registerUser(DbUserEntity user);
+  Future<DbUserEntity> getUserByEmail(String email);
+  Future<void> updateVerifiedTicket(DbTicketsBoughtEntity ticket);
+  Future<List<DbUserEntity>> loadAllUsers();
 }

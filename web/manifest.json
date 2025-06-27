@@ -1,6 +1,6 @@
 {
-    "name": "ticketzone",
-    "short_name": "ticketzone",
+    "name": "TicketZone",
+    "short_name": "TicketZone",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ticketzone/presentation/providers/initial_loading_provider.dart';
+import 'package:ticketzone/presentation/helpers/helpers.dart';
 import 'package:ticketzone/presentation/providers/login/login_provider.dart';
 import 'package:ticketzone/presentation/widgets/shared/custom_text_form_field.dart';
 
@@ -11,7 +11,7 @@ class LoginView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loginForm = ref.watch(loginFormProvider);
-
+    goHome()=> context.go('/home'); 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
@@ -52,12 +52,13 @@ class LoginView extends ConsumerWidget {
                 backgroundColor: Theme.of(context).colorScheme.primary,
               ),
               onPressed: () async{
-                
-               ref.read(loadingProvider.notifier).update((state) => true);
-               await ref.read(loginFormProvider.notifier).onFormSubmit();
-                final isValid = ref.watch(loginFormProvider).isValid;
-                ref.read(loadingProvider.notifier).update((state) => false);          
-                if (isValid) context.push('/home/${loginForm.email.value}');     
+                verifiedFormLogin(ref: ref);
+                if (loginForm.isValid) {
+                  loadingLogin(ref: ref, go:'usuario'); 
+                  await Future.delayed(const Duration(seconds: 1));
+                  isNotLoading(ref: ref);
+                  goHome();
+                }        
               },
               child: Text('Login'),           
             )

@@ -16,8 +16,8 @@ class DbRepositoryImpl  implements DbRepository{
   }
 
   @override
-  Future<void> addTicket(EventEntity event) {
-    return dbDataSource.addTicket(event);
+  Future<void> addTicket(EventEntity event, int userId) {
+    return dbDataSource.addTicket(event, userId);
   }
 
   @override
@@ -30,5 +30,18 @@ class DbRepositoryImpl  implements DbRepository{
     return dbDataSource.registerUser(user);
   }
   
+  @override
+  Future<DbUserEntity> getUserByEmail(String email) {
+    return dbDataSource.getUserByEmail(email);
+  }
   
+  @override
+  Future<void> updateVerifiedTicket(DbTicketsBoughtEntity ticket) {
+    return dbDataSource.updateVerifiedTicket(ticket);
+  }
+  
+  @override
+  Future<List<DbUserEntity>> loadAllUsers() {
+    return dbDataSource.loadAllUsers();
+  }
 }

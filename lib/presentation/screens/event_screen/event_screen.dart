@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ticketzone/domain/entities/event_entity.dart';
-import 'package:ticketzone/presentation/providers/database/db_tickets_bought_provider.dart';
-import 'package:ticketzone/presentation/providers/events/event_info_provider.dart';
 import 'package:ticketzone/presentation/providers/providers.dart';
 import 'package:ticketzone/presentation/widgets/widgets.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../helpers/helpers.dart';
 
 class EventScreen extends ConsumerStatefulWidget {
   final String eventId;
@@ -23,26 +21,18 @@ class EventScreenState extends ConsumerState<EventScreen> {
     ref.read(eventInfoProvider.notifier).loadEvent(widget.eventId);
   }
 
-  void _buyTicket({ required String buyUrl, required EventEntity eventEntity,required WidgetRef ref}) async {
-    ref.read(loadingProvider.notifier).update((state) => true);
-    await ref.read(insertTicketBoughtProvider.notifier).addTicketBought(eventEntity);
-    await ref.read(getTicketsBoughtProvider.notifier).loadTicketsBought();
-    ref.read(loadingProvider.notifier).update((state) => false);
-    final Uri url = Uri.parse(buyUrl);
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw 'No se pudo abrir $url';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final EventEntity? event = ref.watch(eventInfoProvider)[widget.eventId];
     final getTicketsBought = ref.watch(getTicketsBoughtProvider);
+    final userInSession = ref.watch(getUserByEmailProvider);
     final size = MediaQuery.of(context).size;
     final colors = Theme.of(context).colorScheme;
 
     if (event == null) return Scaffold( body: Center(child: CircularProgressIndicator(strokeWidth: 2)), );
-    final ticketBought = getTicketsBought.map((e) => e.ticketId).contains(event.id);
+    final ticketBought = getTicketsBought.where(
+      (ticket) => ticket.ticketId == event.id && ticket.userId == userInSession.id
+    ).isNotEmpty;
     final loading = ref.watch(loadingProvider);
     return Scaffold(
       body:Stack(
@@ -86,7 +76,7 @@ class EventScreenState extends ConsumerState<EventScreen> {
             backgroundColor: Colors.transparent,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), ),),
           onPressed: ()  => ( ticketBought ? null :  event.isOnSale ?
-           _buyTicket(buyUrl: event.buyUrl,eventEntity: event,ref: ref) : null),
+           buyTicket(buyUrl: event.buyUrl,eventEntity: event,ref: ref) : null),
           child: Text(ticketBought ? "TICKET BOUGHT" :
             event.isOnSale ? "BUY TICKET" : "SOLD OUT",
             style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold,

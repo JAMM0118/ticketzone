@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:ticketzone/domain/entities/db_tickets_bought_entity.dart';
+import 'package:ticketzone/presentation/helpers/helpers_scanner_qr.dart';
 import 'package:ticketzone/presentation/providers/database/db_tickets_bought_provider.dart';
+import 'package:ticketzone/presentation/providers/database/db_users_provider.dart';
+import 'package:ticketzone/presentation/providers/helpers_providers.dart';
+import 'package:ticketzone/presentation/widgets/shared/processing_loader.dart';
 
 class ScannerQRScreen extends ConsumerStatefulWidget {
   const ScannerQRScreen({super.key});
@@ -13,65 +15,33 @@ class ScannerQRScreen extends ConsumerStatefulWidget {
 }
 
 class ScannerQRScreenState extends ConsumerState<ScannerQRScreen> {
-  Barcode? _barcode;
-
+  
   @override
   void initState() {
     super.initState();
     ref.read(getTicketsBoughtProvider.notifier).loadTicketsBought();
+    ref.read(getAllUsersProvider.notifier).loadAllUsers();
   }
 
-  Widget _barcodePreview(Barcode? value,List<DbTicketsBoughtEntity>  tickets) {
-    if (value == null) {
-      return const Text(
-        'Scan something!',
-        overflow: TextOverflow.fade,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      );
-    }
-
-    print('Barcode detected: ${value.rawValue}');
-
-
-    if(tickets.map((e) => e.ticketId).contains(value.rawValue)) {
-      return FilledButton(
-          onPressed: () {
-            context.pop();
-          },
-          child: const Text('Verified Ticket'),
-    );
-    } 
-    if(value.rawValue == 'q'){
-      return Text(
-            'This ticket was already used',
-            style: const TextStyle(color: Colors.white,
-            fontSize: 20, fontWeight: FontWeight.bold),     
-      );
-
-    }
-    return Text(
-      'This ticket is not part of our events.',
-      style: const TextStyle(
-      fontSize: 20, fontWeight: FontWeight.bold),
-    );
-     
-  }
-
-  void _handleBarcode(BarcodeCapture barcodes) {
+  void _handleBarcode(BarcodeCapture barcodes ) {
     if (mounted) {
-      setState(() {
-        _barcode = barcodes.barcodes.firstOrNull;
-      });
+        ref.read(barCodeProvider.notifier).update((_) => barcodes.barcodes.firstOrNull);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final tickets = ref.watch(getTicketsBoughtProvider);
+    final user = ref.watch(getAllUsersProvider);
+    final loading = ref.watch(loadingProvider);
     return Scaffold(
-      appBar: AppBar(title: Text('Tickets Scanner',
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-      ),), centerTitle: true),
+      appBar: AppBar(
+        title: Text(
+          'Tickets Scanner',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
       body: Stack(
         children: [
           MobileScanner(onDetect: _handleBarcode),
@@ -84,11 +54,16 @@ class ScannerQRScreenState extends ConsumerState<ScannerQRScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Expanded(child: Center(child: _barcodePreview(_barcode,tickets ))),
+                  Expanded(
+                    child: Center(
+                      child: barcodePreview(tickets, user, ref, context),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
+          if (loading) const ProcessingLoader(message: 'Verifying ticket...'),
         ],
       ),
     );

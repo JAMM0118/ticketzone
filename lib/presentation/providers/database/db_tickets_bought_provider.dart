@@ -19,15 +19,25 @@ final insertTicketBoughtProvider = StateNotifierProvider<TicketsBoughtNotifier, 
   );
 });
 
+final  updateTicketBoughtProvider = StateNotifierProvider<TicketsBoughtNotifier, List<DbTicketsBoughtEntity>>((ref){
+  final updateTicketBought = ref.watch(dbRepositoryProvider).updateVerifiedTicket;
+  
+  return TicketsBoughtNotifier(
+    updateTicketBought: updateTicketBought,
+  );
+});
+
 typedef TicketsBoughtCallBack = Future<List<DbTicketsBoughtEntity>> Function();
-typedef InsertTicketBoughtCallBack = Future<void> Function(EventEntity eventEntity);
+typedef InsertTicketBoughtCallBack = Future<void> Function(EventEntity eventEntity,int userId);
+typedef UpdateTicketBoughtCallBack = Future<void> Function(DbTicketsBoughtEntity ticket);
 
 class TicketsBoughtNotifier extends StateNotifier<List<DbTicketsBoughtEntity>> {
   bool isLoading = false;
   final TicketsBoughtCallBack? fetchTicketsBought;
   final InsertTicketBoughtCallBack? insertTicketBought;
+  final UpdateTicketBoughtCallBack? updateTicketBought;
 
-  TicketsBoughtNotifier({this.insertTicketBought, this.fetchTicketsBought}) : super([]);
+  TicketsBoughtNotifier({this.insertTicketBought, this.fetchTicketsBought,this.updateTicketBought}) : super([]);
 
   Future<void> loadTicketsBought() async{
     if (isLoading) return;
@@ -38,11 +48,19 @@ class TicketsBoughtNotifier extends StateNotifier<List<DbTicketsBoughtEntity>> {
     state = [...state, ...newTicketsBought.where((ticket) => !existingIds.contains(ticket.ticketId))];
     isLoading = false;
   }
-  Future<void> addTicketBought(EventEntity eventEntity) async {
+  Future<void> addTicketBought(EventEntity eventEntity, int userId) async {
     if (isLoading) return;
     isLoading = true;
     
-    await insertTicketBought!(eventEntity);
+    await insertTicketBought!(eventEntity, userId);
+    isLoading = false;
+  }
+
+  Future<void> updateTicket(DbTicketsBoughtEntity ticket) async {
+    if (isLoading) return;
+    isLoading = true;
+    
+    await updateTicketBought!(ticket);
     isLoading = false;
   }
 }

@@ -6,10 +6,11 @@ import 'package:ticketzone/presentation/delegates/search_event_delegate.dart';
 import 'package:ticketzone/presentation/providers/providers.dart';
 
 class CustomAppbar extends ConsumerWidget {
-  const CustomAppbar( {super.key,});
-
+  final String userName;
+  const CustomAppbar( {super.key,required this.userName} );
   @override
   Widget build(BuildContext context,ref) {
+    void goEvent(String id) => context.push('/event/$id'); 
 
     final titleStyle = Theme.of(context).textTheme.titleMedium;
 
@@ -28,10 +29,16 @@ class CustomAppbar extends ConsumerWidget {
                 height: 40,),
              ),
             
-            Text(
-              'Welcome 🤩',
-              style: titleStyle
-      
+            Row(
+              children: [
+                Text('Welcome ',style: titleStyle),
+                Text(userName,
+                  style: titleStyle?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary
+                  )
+                ),
+              ],
             ),
               const Spacer(),
               IconButton(
@@ -48,8 +55,7 @@ class CustomAppbar extends ConsumerWidget {
                     )
                   ).then((event) {
                     if (event == null) return;
-      
-                      context.push('/event/${event.id}');                   
+                    goEvent(event.id);                       
                   });
                 },
               ),

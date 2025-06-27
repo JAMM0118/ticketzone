@@ -1,9 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ticketzone/presentation/providers/initial_loading_provider.dart';
+import 'package:ticketzone/presentation/providers/helpers_providers.dart';
 import 'package:ticketzone/presentation/views/login_views/login_supervisor_view.dart';
-import 'package:ticketzone/presentation/widgets/events/processing_loader.dart';
+import 'package:ticketzone/presentation/widgets/shared/processing_loader.dart';
 
 class LoginSupervisorScreen extends ConsumerWidget {
   const LoginSupervisorScreen({super.key});
@@ -15,7 +15,6 @@ class LoginSupervisorScreen extends ConsumerWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        
         backgroundColor: Color.fromRGBO(112, 36, 1, 1),
         body: Stack(
           children:[ SingleChildScrollView(
@@ -24,10 +23,7 @@ class LoginSupervisorScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox( height: 80 ),
-                  Image.asset(
-                    'assets/images/logo.png',
-                    height: 150,
-                  ),
+                  Image.asset('assets/images/logo.png',height: 150),
                   const SizedBox( height: 20 ),
                   FadeInUp(
                     child: Container(
@@ -45,9 +41,9 @@ class LoginSupervisorScreen extends ConsumerWidget {
               ),
           ),
           if(loading) const ProcessingLoader(message: 'Logging in...')
-        ]
+          ]
         )
       ),
     );
   }
-  }
+}

@@ -27,5 +27,4 @@ class DbUserModel {
     password: password,
     id: id,
   );
-
 }

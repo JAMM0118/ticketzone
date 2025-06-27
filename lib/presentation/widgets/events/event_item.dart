@@ -25,9 +25,7 @@ class EventItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
                   event.imageUrl,
-                  loadingBuilder:
-                      (context, child, loadingProgress) =>
-                          FadeInLeft(child: child),
+                  loadingBuilder:(context, child, loadingProgress) => FadeInLeft(child: child),
                 ),
               ),
             ),
@@ -39,19 +37,13 @@ class EventItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     (event.name.length > 50)
-                        ? Text(
-                          "${event.name.substring(0, 50)}...",
-                          style: textStyles.titleMedium,
-                        )
+                        ? Text("${event.name.substring(0, 50)}...",style: textStyles.titleMedium)
                         : Text(event.name, style: textStyles.titleMedium),
 
                     const SizedBox(height: 5),
                     Row(
                       children: [
-                        Text(
-                          "Fecha: ",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                        Text("Fecha: ",style: TextStyle(fontWeight: FontWeight.bold),),
                         Text(event.startDate),
                       ],
                     ),

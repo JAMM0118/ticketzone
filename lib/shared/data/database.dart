@@ -23,6 +23,17 @@ class Database {
     ));
   }
 
+  Future<Result> getUserByEmail(String email) async{
+    return await connection().then((conn) => conn.execute(
+      r'SELECT * FROM users WHERE email=($1);',
+      parameters: [email]
+    ));
+  }
+  
+  Future<Result> loadAllUsers() async {
+    return await connection().then((conn) => conn.execute('SELECT * FROM users'));
+  }
+
   Future<void> addUser(DbUserEntity user) async {
     await connection().then((conn) => conn.execute(
       r'INSERT INTO users (email,password,name) VALUES ($1,$2,$3)',
@@ -39,9 +50,16 @@ class Database {
     return await connection().then((conn) => conn.execute('SELECT * FROM ticketsbought'));
   }
 
+  Future<void> updateVerifiedTicket(DbTicketsBoughtEntity ticket) async {
+    await connection().then((conn) => conn.execute(
+      r'UPDATE ticketsbought SET verified=$1 WHERE id=$2',
+      parameters: [ticket.verified, ticket.id]
+    ));
+  }
+
   Future<void> addTicket(DbTicketsBoughtEntity ticketBought) async {
     await connection().then((conn) => conn.execute(
-      r'INSERT INTO ticketsbought (event_id,image_url,name,start_date,start_time,country,latitude,longitude) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)',
+      r'INSERT INTO ticketsbought (event_id,image_url,name,start_date,start_time,country,latitude,longitude,user_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)',
       parameters: [
         ticketBought.ticketId,
         ticketBought.imageUrl,
@@ -51,6 +69,7 @@ class Database {
         ticketBought.country,
         ticketBought.latitude,
         ticketBought.longitude,
+        ticketBought.userId,
       ]   
       )
     );

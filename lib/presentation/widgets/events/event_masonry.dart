@@ -41,10 +41,11 @@ class _EventMasonryState extends State<EventMasonry> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14),
         child: MasonryGridView.count(
-          padding: EdgeInsets.only(top:10, bottom: 10),
+          padding: EdgeInsets.only(top:10, bottom: 100),
           physics: const AlwaysScrollableScrollPhysics(),
           crossAxisCount: 2,
           mainAxisSpacing: 10,

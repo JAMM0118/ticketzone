@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ticketzone/presentation/providers/providers.dart';
+import 'package:ticketzone/presentation/helpers/helpers.dart';
 import 'package:ticketzone/presentation/providers/register/register_provider.dart';
 import 'package:ticketzone/presentation/widgets/shared/custom_text_form_field.dart';
 
@@ -11,7 +11,7 @@ class RegisterView extends ConsumerWidget {
   @override
   Widget build(BuildContext context,ref) {
     final registerForm = ref.watch(registerFormProvider);
-
+    goLogin() => context.go('/'); 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
@@ -60,12 +60,14 @@ class RegisterView extends ConsumerWidget {
                 ),
                 backgroundColor: Theme.of(context).colorScheme.primary,
               ),     
-              onPressed: ()async{
-                ref.read(loadingProvider.notifier).update((state) => true);
-                await ref.read(registerFormProvider.notifier).onFormSubmit();
-                final isValid = ref.read(registerFormProvider).isValid;
-                ref.read(loadingProvider.notifier).update((state) => false);
-                if (isValid) context.go('/');    
+              onPressed: () async{
+                verifiedFormRegister(ref: ref);
+                if (registerForm.isValid){
+                    isLoading(ref: ref);
+                    await Future.delayed(const Duration(seconds: 1));
+                    isNotLoading(ref:ref);
+                    goLogin();   
+                } 
               },
               child: Text('Create account' ),
             )

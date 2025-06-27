@@ -1,4 +1,11 @@
-export 'events/events_providers.dart';
+export 'events/events_provider.dart';
 export 'events/events_repository_provider.dart';
-export 'initial_loading_provider.dart';
+export 'helpers_providers.dart';
 export 'search/search_events_provider.dart';
+export 'database/db_auth_provider.dart';
+export 'database/db_repository_provider.dart';
+export 'login/login_provider.dart';
+export 'register/register_provider.dart';
+export 'database/db_tickets_bought_provider.dart';
+export 'database/db_users_provider.dart';
+export 'events/event_info_provider.dart';

@@ -25,18 +25,23 @@ class QRView extends StatelessWidget {
       ),
       title: Text('Event Ticket', textAlign: TextAlign.center),
       contentPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-      content: QrImageView(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        data: ticketId,
-        version: QrVersions.auto,
-        dataModuleStyle: QrDataModuleStyle(
-          dataModuleShape: QrDataModuleShape.square,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        size: 200,
-        eyeStyle: QrEyeStyle(
-          eyeShape: QrEyeShape.square,
-          color: Theme.of(context).colorScheme.primary,
+      content: SizedBox(
+        height: 250,
+        width: 250,
+        child: QrImageView(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          data: ticketId,
+          gapless: false,
+          version: QrVersions.auto,
+          dataModuleStyle: QrDataModuleStyle(
+            dataModuleShape: QrDataModuleShape.square,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          size: 200,
+          eyeStyle: QrEyeStyle(
+            eyeShape: QrEyeShape.square,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       ),
       actions: [

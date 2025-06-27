@@ -24,6 +24,20 @@ class ApiEvents {
     }
   }
 
+  Future<List<dynamic>> loadCategories() async {
+    try {
+      final response = await _dio.get('/classifications',);
+      if (response.statusCode == 200){
+      return response.data['_embedded']['classifications'];
+      } 
+        
+      throw Exception('Failed to load events');
+      
+    } catch (e) {
+      throw Exception('Failed to load events: $e');
+    }
+  }
+
   Future<dynamic> getEventById(String id) async {
     try {
       final response = await _dio.get('/events/$id');
@@ -32,6 +46,23 @@ class ApiEvents {
       
     } catch (e) {
       throw Exception('Failed to load event by ID: $e');
+    }
+  }
+
+  Future<List<dynamic>> getEventsByCategory({required String genreId,int page = 0, int limit = 10}) async {
+    try {
+      final response = await _dio.get('/events',
+        queryParameters: {
+        'genreId': genreId,  
+        'page': page,
+        'size': limit,
+
+      });
+      if (response.statusCode == 200) return response.data['_embedded']['events'];
+      throw Exception('Failed to load events');
+      
+    } catch (e) {
+      throw Exception('Failed to load events: $e');
     }
   }
 

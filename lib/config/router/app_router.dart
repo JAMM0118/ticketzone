@@ -4,7 +4,7 @@ import 'package:ticketzone/presentation/screens/screens.dart';
 import 'package:ticketzone/presentation/views/views.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/home',
+  initialLocation: '/',
   routes: [
     StatefulShellRoute.indexedStack(
       builder: (context, state, child) => HomeScreen(childView: child),
@@ -70,7 +70,5 @@ final appRouter = GoRouter(
       path: '/scannerQR',
       builder: (context, state) => const ScannerQRScreen(),
     ),
-
-
   ],
 );

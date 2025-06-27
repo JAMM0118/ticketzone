@@ -5,4 +5,5 @@ import 'package:ticketzone/infrastructure/repositories/event_repository_impl.dar
 final eventsRepositoryProvider = Provider((ref){
 
   return EventRepositoyImpl(eventDataSource: EventDataSourceImpl());
+  
 });

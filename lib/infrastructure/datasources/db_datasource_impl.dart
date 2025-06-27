@@ -19,8 +19,8 @@ class DbDatasourceImpl implements DbDataSource{
   }
 
   @override
-  Future<void> addTicket(EventEntity event) async{
-    final ticketModel = DbTicketsBoughtModel.fromEventEntity(event).toDbTicketsBoughtEntity();
+  Future<void> addTicket(EventEntity event, int userId) async{
+    final ticketModel = DbTicketsBoughtModel.fromEventEntity(event,userId).toDbTicketsBoughtEntity();
     await Database().addTicket(ticketModel);
   }
 
@@ -37,5 +37,23 @@ class DbDatasourceImpl implements DbDataSource{
     await Database().addUser(user); 
   }
   
+  @override
+  Future<DbUserEntity> getUserByEmail(String email) async{
+    final userModel = await Database().getUserByEmail(email);
+    final DbUserEntity userInSession = DbUserModel.fromJson(userModel.first).toDbUserEntity();
+    
+    return userInSession;
+  }
   
+  @override
+  Future<void> updateVerifiedTicket(DbTicketsBoughtEntity ticket) {
+    return Database().updateVerifiedTicket(ticket);
+  }
+  
+  @override
+  Future<List<DbUserEntity>> loadAllUsers() {
+    return Database().loadAllUsers().then((users) => users.map(
+      (user) => DbUserModel.fromJson(user).toDbUserEntity()
+    ).toList());
+  }
 }

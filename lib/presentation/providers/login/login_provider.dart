@@ -57,7 +57,6 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
     );
   }
 }
-
 class LoginFormState {
 
   final bool isPosting;
